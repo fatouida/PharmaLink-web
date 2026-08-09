@@ -3,6 +3,7 @@ import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import logo from '../../assets/BANNERtransparent.png'
+import logo1 from '../../assets/image.png'
 import { useNavigate } from 'react-router-dom'
 import { authService } from '../../services/authservice'
 import { useAuthStore } from '../../store/authstore'
@@ -284,7 +285,7 @@ const onSignup = async (data: SignupForm) => {
 
         {/* Header */}
         <div className="text-center mb-2">
-          <img src={logo} alt="PharmaLink" className="h-50 w-auto mx-auto mb-0" />
+          <img src={logo1} alt="PharmaLink" className="h-35 w-auto mx-auto mb-0" />
           <p className="text-sm mt-0" style={{ color: '#1191B4' }}>Médicaments livrés · 24h/24</p>
         </div>
 

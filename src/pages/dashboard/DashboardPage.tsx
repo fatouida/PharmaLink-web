@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from 'react'
 import { useAuthStore } from '../../store/authstore'
 import logo from '../../assets/LOGO.png'
+import { useNavigate } from 'react-router-dom'
+import AppLayout from '../../components/AppLayout'
 
 const COLORS = ['#1191B4', '#0E4554', '#3FE1E6']
 const SHAPES = [
@@ -126,6 +128,7 @@ export default function DashboardPage() {
   const { patient } = useAuthStore()
   const [activeNav, setActiveNav] = useState('home')
   const [showRappel, setShowRappel] = useState(false)
+  const navigate = useNavigate()
 
   const glass = {
     background: 'rgba(255,255,255,0.55)',
@@ -134,7 +137,8 @@ export default function DashboardPage() {
   }
 
   return (
-    <div className="relative min-h-screen overflow-hidden" style={{ background: '#C1EAF5' }}>
+    <AppLayout>
+  <div className="min-h-screen ..." style={{ background: '#C1EAF5' }}>
       <HealthCanvas />
 
       <div className="relative pb-20" style={{ zIndex: 1 }}>
@@ -155,7 +159,8 @@ export default function DashboardPage() {
                 <span className="text-xs font-medium" style={{ color: '#0F6E56' }}>Identité vérifiée (KYC)</span>
               </div>
             </div>
-          </div>
+    
+        </div>
 
           <button
             onClick={() => setShowRappel(true)}
@@ -170,15 +175,15 @@ export default function DashboardPage() {
         </div>
 
         {/* Search */}
-        <div className="px-5 mb-4">
-          <div className="flex items-center gap-3 px-4 py-3 rounded-2xl"
-            style={{ background: 'rgba(255,255,255,0.65)', border: '1px solid rgba(17,145,180,0.2)', backdropFilter: 'blur(12px)' }}>
-            <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="#B4B2A9" strokeWidth="1.5">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 15.803 7.5 7.5 0 0015.803 15.803z"/>
-            </svg>
-            <span className="text-sm" style={{ color: '#B4B2A9' }}>Rechercher un médicament...</span>
-          </div>
-        </div>
+<div className="px-5 mb-4" onClick={() => navigate('/commande')} style={{ cursor: 'pointer' }}>
+  <div className="flex items-center gap-3 px-4 py-3 rounded-2xl"
+    style={{ background: 'rgba(255,255,255,0.65)', border: '1px solid rgba(17,145,180,0.2)', backdropFilter: 'blur(12px)' }}>
+    <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="#B4B2A9" strokeWidth="1.5">
+      <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 15.803 7.5 7.5 0 0015.803 15.803z"/>
+    </svg>
+    <span className="text-sm" style={{ color: '#B4B2A9' }}>Rechercher un médicament...</span>
+  </div>
+</div>
 
         {/* Livraison en cours */}
         <div className="mx-5 mb-5 rounded-2xl p-4 relative overflow-hidden" style={{ background: '#0E4554' }}>
@@ -317,25 +322,32 @@ export default function DashboardPage() {
         </div>
       )}
 
-      {/* Bottom Nav */}
+    {/* Bottom Nav */}
       <div className="fixed bottom-0 left-0 right-0 flex justify-around items-center py-3 px-5"
         style={{ background: 'rgba(255,255,255,0.65)', borderTop: '1px solid rgba(17,145,180,0.12)', backdropFilter: 'blur(20px)', zIndex: 10 }}>
         {[
-          { id: 'home',      label: 'Accueil',     path: 'M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25' },
-          { id: 'commandes', label: 'Commandes',   path: 'M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007z' },
-          { id: 'medoc',     label: 'Médicaments', path: 'M9.75 3.104v5.714a2.25 2.25 0 01-.659 1.591L5 14.5M9.75 3.104c-.251.023-.501.05-.75.082m.75-.082a24.301 24.301 0 014.5 0m0 0v5.714c0 .597.237 1.17.659 1.591L19.8 15.3M14.25 3.104c.251.023.501.05.75.082M19.8 15.3l-1.57.393A9.065 9.065 0 0112 15a9.065 9.065 0 00-6.23-.693L5 14.5m14.8.8l1.402 1.402c1 1 .03 2.798-1.414 2.798H4.212c-1.444 0-2.414-1.798-1.414-2.798L4.2 15.3' },
-          { id: 'profil',    label: 'Profil',      path: 'M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z' },
+          { id: 'home',       label: 'Accueil',    path: 'M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25' },
+          { id: 'commandes',  label: 'Commandes',  path: 'M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007z' },
+          { id: 'pharmacies', label: 'Pharmacies', path: 'M15 10.5a3 3 0 11-6 0 3 3 0 016 0z M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z' },
+          { id: 'sante',      label: 'Santé',      path: 'M9.75 3.104v5.714a2.25 2.25 0 01-.659 1.591L5 14.5M9.75 3.104c-.251.023-.501.05-.75.082m.75-.082a24.301 24.301 0 014.5 0m0 0v5.714c0 .597.237 1.17.659 1.591L19.8 15.3M14.25 3.104c.251.023.501.05.75.082M19.8 15.3l-1.57.393A9.065 9.065 0 0112 15a9.065 9.065 0 00-6.23-.693L5 14.5m14.8.8l1.402 1.402c1 1 .03 2.798-1.414 2.798H4.212c-1.444 0-2.414-1.798-1.414-2.798L4.2 15.3' },
+          { id: 'profil',     label: 'Profil',     path: 'M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z' },
         ].map(({ id, label, path }) => (
-          <button key={id} onClick={() => setActiveNav(id)} className="flex flex-col items-center gap-1">
+          <button key={id} onClick={() => {
+            setActiveNav(id)
+            if (id === 'commandes') navigate('/commandes')
+            if (id === 'sante') navigate('/sante')
+            if (id === 'pharmacies') navigate('/pharmacies')
+            if (id === 'profil') navigate('/profil')
+          }} className="flex flex-col items-center gap-1">
             <svg width="22" height="22" fill="none" viewBox="0 0 24 24"
               stroke={activeNav === id ? '#0E4554' : '#B4B2A9'} strokeWidth="1.5">
               <path strokeLinecap="round" strokeLinejoin="round" d={path} />
             </svg>
             <span className="font-medium" style={{ color: activeNav === id ? '#0E4554' : '#B4B2A9', fontSize: 10 }}>{label}</span>
-          </button>
+ </button>
         ))}
       </div>
-
     </div>
+  </AppLayout>
   )
 }
