@@ -327,7 +327,7 @@ function SuiviCommande({ commande, onBack }: { commande: Commande; onBack: () =>
 // ─── Page principale ──────────────────────────────────────────
 export default function CommandesPage() {
     const navigate = useNavigate()
-    const { medicamentId } = useParams()
+    useParams()
   const [selected, setSelected] = useState<Commande | null>(null)
 
   return (

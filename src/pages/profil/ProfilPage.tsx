@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useAuthStore } from '../../store/authStore'
-import logo from '../../assets/LOGO.png'
+import { useAuthStore } from '../../store/authstore'
 
 function Glass({ children, className = '' }: { children: React.ReactNode; className?: string }) {
   return (

@@ -41,9 +41,6 @@ function Glass({ children, className = '' }: { children: React.ReactNode; classN
   )
 }
 
-function SectionLabel({ children }: { children: React.ReactNode }) {
-  return <div className="text-xs font-medium mb-2 tracking-widest uppercase" style={{ color: '#1191B4' }}>{children}</div>
-}
 
 export default function SantePage() {
   const navigate = useNavigate()
