@@ -2,10 +2,6 @@ import { useEffect, useRef, useState } from 'react'
 import { useAuthStore } from '../../store/authstore'
 import logo from '../../assets/LOGO.png'
 import { useNavigate } from 'react-router-dom'
-
-interface AppLayoutProps {
-  children: React.ReactNode
-}
 import AppLayout from '../../components/AppLayout'
 
 const COLORS = ['#1191B4', '#0E4554', '#3FE1E6']
