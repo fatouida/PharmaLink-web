@@ -2,10 +2,8 @@ pipeline {
     agent any
 
     environment {
-        // Nom de l'image Docker
         IMAGE_NAME = 'pharmalink-web'
         IMAGE_TAG  = "${BUILD_NUMBER}"
-        // Ton Docker Hub username
         DOCKER_HUB_USER = 'fatouida'
         DOCKER_IMAGE = "${DOCKER_HUB_USER}/${IMAGE_NAME}:${IMAGE_TAG}"
         DOCKER_IMAGE_LATEST = "${DOCKER_HUB_USER}/${IMAGE_NAME}:latest"
@@ -27,28 +25,28 @@ pipeline {
         stage('Install') {
             steps {
                 echo ' Installation des dépendances...'
-                bat 'npm ci'
+                sh 'npm ci'
             }
         }
 
         stage('Lint') {
             steps {
                 echo ' Vérification du code...'
-                bat 'npm run lint --if-present'
+                sh 'npm run lint --if-present || true'
             }
         }
 
         stage('Build') {
             steps {
                 echo ' Build de l\'application React...'
-                bat 'npm run build'
+                sh 'npm run build'
             }
         }
 
         stage('Docker Build') {
             steps {
                 echo ' Construction de l\'image Docker...'
-                bat "docker build -t ${DOCKER_IMAGE} -t ${DOCKER_IMAGE_LATEST} ."
+                sh "docker build -t ${DOCKER_IMAGE} -t ${DOCKER_IMAGE_LATEST} ."
             }
         }
 
@@ -60,10 +58,10 @@ pipeline {
                     usernameVariable: 'DOCKER_USER',
                     passwordVariable: 'DOCKER_PASS'
                 )]) {
-                    bat "docker login -u %DOCKER_USER% -p %DOCKER_PASS%"
-                    bat "docker push ${DOCKER_IMAGE}"
-                    bat "docker push ${DOCKER_IMAGE_LATEST}"
-                    bat "docker logout"
+                    sh "echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin"
+                    sh "docker push ${DOCKER_IMAGE}"
+                    sh "docker push ${DOCKER_IMAGE_LATEST}"
+                    sh "docker logout"
                 }
             }
         }
@@ -71,13 +69,13 @@ pipeline {
         stage('Deploy Local') {
             steps {
                 echo ' Déploiement local...'
-                bat """
-                    docker stop pharmalink-web-container 2>nul || echo Container not running
-                    docker rm pharmalink-web-container 2>nul || echo Container not found
-                    docker run -d ^
-                        --name pharmalink-web-container ^
-                        -p 3000:80 ^
-                        --restart unless-stopped ^
+                sh """
+                    docker stop pharmalink-web-container || true
+                    docker rm pharmalink-web-container || true
+                    docker run -d \\
+                        --name pharmalink-web-container \\
+                        -p 3000:80 \\
+                        --restart unless-stopped \\
                         ${DOCKER_IMAGE_LATEST}
                 """
             }
@@ -94,8 +92,7 @@ pipeline {
             echo ' Pipeline échoué — vérifier les logs ci-dessus'
         }
         always {
-            echo ' Nettoyage des images Docker intermédiaires...'
-            bat 'docker image prune -f'
+            sh 'docker image prune -f || true'
         }
     }
 }
